@@ -15,11 +15,10 @@ class DBClient {
     // Connect to MongoDB
     this.client.connect()
       .then(() => {
-        console.log('MongoDB connected successfully');
         this.db = this.client.db(this.databaseName);
       })
       .catch((error) => {
-        console.error('MongoDB connection error:', error);
+        console.error(error);
       });
   }
 
@@ -29,7 +28,7 @@ class DBClient {
       const isConnected = await this.client.isConnected(); // isConnected() in MongoDB client
       return isConnected;
     } catch (error) {
-      console.error('Error checking MongoDB connection:', error);
+      console.error(error);
       return false;
     }
   }

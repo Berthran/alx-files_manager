@@ -9,6 +9,12 @@ const app = express();
 // Define the port using an environment variable or default to 5000
 const port = process.env.PORT || 5000;
 
+
+// Use express.json() middleware to automatically parse incoming JSON data
+// express.json() needs to be registered globally before any route handling
+// so that the req.body gets correctly populated with parsed JSON data
+app.use(express.json()); // This is necessary for parsing JSON in requests
+
 // Use routes from the routes/index.js file
 app.use('/', routes);
 

@@ -2,58 +2,59 @@ const { MongoClient } = require('mongodb');
 
 class DBClient {
   constructor() {
-    // Retrieve MongoDB connection details from environment variables or set defaults
     const host = process.env.DB_HOST || 'localhost';
     const port = process.env.DB_PORT || 27017;
     const database = process.env.DB_DATABASE || 'files_manager';
+
     this.uri = `mongodb://${host}:${port}`;
     this.databaseName = database;
-    
-    // MongoDB client initialization
     this.client = new MongoClient(this.uri, { useUnifiedTopology: true });
+    this.db = null;
 
-    // Connect to MongoDB
-    this.client.connect()
-      .then(() => {
-        this.db = this.client.db(this.databaseName);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // Initialize connection
+    this.init();
   }
 
-  // Check if the connection to MongoDB is alive
-  async isAlive() {
+  async init() {
     try {
-      const isConnected = await this.client.isConnected(); // isConnected() in MongoDB client
-      return isConnected;
+      await this.client.connect();
+      this.db = this.client.db(this.databaseName);
     } catch (error) {
-      console.error(error);
-      return false;
+      console.error('MongoDB connection failed:', error);
     }
   }
 
-  // Get the number of users in the 'users' collection
+  isAlive() {
+    const isConnected = this.client.isConnected();
+    return isConnected;
+  }
+
   async nbUsers() {
     try {
       const usersCollection = this.db.collection('users');
-      const count = await usersCollection.countDocuments();
-      return count;
+      return await usersCollection.countDocuments();
     } catch (error) {
-      console.error(error);
+      console.error('Failed to count users:', error);
       return 0;
     }
   }
 
-  // Get the number of files in the 'files' collection
   async nbFiles() {
     try {
       const filesCollection = this.db.collection('files');
-      const count = await filesCollection.countDocuments();
-      return count;
+      return await filesCollection.countDocuments();
     } catch (error) {
-      console.error(error);
+      console.error('Failed to count files:', error);
       return 0;
+    }
+  }
+
+  async close() {
+    try {
+      await this.client.close();
+      console.log('MongoDB connection closed');
+    } catch (error) {
+      console.error('Failed to close MongoDB connection:', error);
     }
   }
 }

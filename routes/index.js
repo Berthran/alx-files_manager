@@ -46,7 +46,7 @@ router.get('/connect', AuthController.getConnect);
  * When a GET request is made to '/disconnect', the getDisconnect method in AuthController is called
  * The getDisconnect method will handle the user logout or disconnection process.
  */
-router.get('/disconnect', AuthController.getDisonnect);
+router.get('/disconnect', AuthController.getDisconnect);
 
 /**
  * Define a GET route for '/users/me'.

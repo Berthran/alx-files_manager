@@ -5,7 +5,7 @@ const express = require('express');
 const AppController = require('../controllers/AppController');
 
 // Import the UsersController, which contains the logic for handling the user routes
-const UsersController = require('../controllers/UsersController')
+const UsersController = require('../controllers/UsersController');
 
 // Create a new router object to define modular routes
 const router = express.Router();

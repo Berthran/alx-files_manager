@@ -10,7 +10,7 @@ class DBClient {
     this.databaseName = database;
     
     // MongoDB client initialization
-    this.client = new MongoClient(this.uri, { useUnifiedTopology: true});
+    this.client = new MongoClient(this.uri, { useUnifiedTopology: true });
 
     // Connect to MongoDB
     this.client.connect()
@@ -40,7 +40,7 @@ class DBClient {
       const count = await usersCollection.countDocuments();
       return count;
     } catch (error) {
-      console.error('Error counting users:', error);
+      console.error(error);
       return 0;
     }
   }
@@ -52,7 +52,7 @@ class DBClient {
       const count = await filesCollection.countDocuments();
       return count;
     } catch (error) {
-      console.error('Error counting files:', error);
+      console.error(error);
       return 0;
     }
   }

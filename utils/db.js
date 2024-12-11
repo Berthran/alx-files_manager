@@ -10,7 +10,15 @@ class DBClient {
     this.databaseName = database;
     
     // MongoDB client initialization
-    this.client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    this.client = new MongoClient(this.uri);
+
+    async function run() {
+      try {
+        await this.client.connect();
+        this.db = this.client.db(this.databaseName);
+      }
+      
+    }
 
     // Connect to MongoDB
     this.client.connect()
